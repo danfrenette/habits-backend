@@ -75,18 +75,18 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    amazing_print (1.5.0)
+    ast (2.4.2)
     base64 (0.2.0)
     bigdecimal (3.1.5)
     bootsnap (1.17.0)
       msgpack (~> 1.2)
     builder (3.2.4)
+    coderay (1.1.3)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
     crass (1.0.6)
     date (3.3.4)
-    debug (1.9.0)
-      irb (~> 1.10)
-      reline (>= 0.3.8)
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
@@ -98,6 +98,9 @@ GEM
     irb (1.10.1)
       rdoc
       reline (>= 0.3.8)
+    json (2.7.1)
+    language_server-protocol (3.17.0.3)
+    lint_roller (1.1.0)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -107,6 +110,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.2)
+    method_source (1.0.0)
     mini_mime (1.1.5)
     minitest (5.20.0)
     msgpack (1.7.2)
@@ -127,7 +131,16 @@ GEM
       racc (~> 1.4)
     nokogiri (1.15.5-x86_64-linux)
       racc (~> 1.4)
+    parallel (1.24.0)
+    parser (3.2.2.4)
+      ast (~> 2.4.1)
+      racc
     pg (1.5.4)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     psych (5.1.1.1)
       stringio
     puma (6.4.0)
@@ -170,17 +183,50 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
+    rainbow (3.1.1)
     rake (13.1.0)
     rdoc (6.6.2)
       psych (>= 4.0.0)
+    regexp_parser (2.8.3)
     reline (0.4.1)
       io-console (~> 0.5)
+    rexml (3.2.6)
+    rubocop (1.57.2)
+      json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
+      parallel (~> 1.10)
+      parser (>= 3.2.2.4)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.28.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.30.0)
+      parser (>= 3.2.1.0)
+    rubocop-performance (1.19.1)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
+    standard (1.32.1)
+      language_server-protocol (~> 3.17.0.2)
+      lint_roller (~> 1.0)
+      rubocop (~> 1.57.2)
+      standard-custom (~> 1.0.0)
+      standard-performance (~> 1.2)
+    standard-custom (1.0.2)
+      lint_roller (~> 1.0)
+      rubocop (~> 1.50)
+    standard-performance (1.2.1)
+      lint_roller (~> 1.1)
+      rubocop-performance (~> 1.19.1)
     stringio (3.1.0)
     thor (1.3.0)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    unicode-display_width (2.5.0)
     webrick (1.8.1)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -193,11 +239,13 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  amazing_print
   bootsnap
-  debug
   pg (~> 1.1)
+  pry-rails
   puma (>= 5.0)
   rails (~> 7.1.2)
+  standard
   tzinfo-data
 
 RUBY VERSION
