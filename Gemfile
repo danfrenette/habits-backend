@@ -13,6 +13,9 @@ group :development, :test do
   gem "pry-rails"
   gem "standard"
   gem "amazing_print"
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "shoulda-matchers"
 end
 
 group :development do
