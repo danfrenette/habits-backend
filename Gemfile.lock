@@ -104,6 +104,9 @@ GEM
     irb (1.10.1)
       rdoc
       reline (>= 0.3.8)
+    jbuilder (2.11.5)
+      actionview (>= 5.0.0)
+      activesupport (>= 5.0.0)
     json (2.7.1)
     language_server-protocol (3.17.0.3)
     lint_roller (1.1.0)
@@ -269,6 +272,7 @@ DEPENDENCIES
   amazing_print
   bootsnap
   factory_bot_rails
+  jbuilder
   pg (~> 1.1)
   pry-rails
   puma (>= 5.0)
