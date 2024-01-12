@@ -34,7 +34,7 @@ RSpec.describe "Users", type: :request do
         create(:user, email: user_email, name: user_name, image: user_image)
       end
 
-      it "does not createa new user" do
+      it "does not create a new user" do
         expect { post api_users_path, params: user_params }.not_to change(User, :count)
 
         expect(response).to be_successful
