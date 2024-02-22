@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_12_192517) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_21_034454) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "cues", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "description", null: false
+    t.string "cue_type", null: false
+    t.time "time"
+    t.string "frequency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "habit_cues", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "habit_id", null: false
+    t.uuid "cue_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cue_id"], name: "index_habit_cues_on_cue_id"
+    t.index ["habit_id"], name: "index_habit_cues_on_habit_id"
+  end
 
   create_table "habits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
@@ -25,6 +43,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_192517) do
     t.index ["user_id"], name: "index_habits_on_user_id"
   end
 
+  create_table "responses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "habit_id", null: false
+    t.string "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["habit_id"], name: "index_responses_on_habit_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "name", null: false
@@ -34,5 +60,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_12_192517) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "habit_cues", "cues"
+  add_foreign_key "habit_cues", "habits"
   add_foreign_key "habits", "users"
+  add_foreign_key "responses", "habits"
 end
