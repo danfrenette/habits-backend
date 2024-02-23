@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
 
   describe "associations" do
     it { should have_many(:habits) }
+    it { should have_many(:tasks) }
   end
 
   describe "validations" do

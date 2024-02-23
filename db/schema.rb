@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_21_034454) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_23_015916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -51,6 +51,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_034454) do
     t.index ["habit_id"], name: "index_responses_on_habit_id"
   end
 
+  create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.string "status", default: "pending", null: false
+    t.uuid "user_id", null: false
+    t.uuid "response_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["response_id"], name: "index_tasks_on_response_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", null: false
     t.string "name", null: false
@@ -64,4 +75,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_21_034454) do
   add_foreign_key "habit_cues", "habits"
   add_foreign_key "habits", "users"
   add_foreign_key "responses", "habits"
+  add_foreign_key "tasks", "responses"
+  add_foreign_key "tasks", "users"
 end

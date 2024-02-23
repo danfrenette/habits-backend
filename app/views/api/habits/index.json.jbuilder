@@ -1,3 +1,3 @@
 json.array! @habits do |habit|
-  json.call(patient, :id, :name, :current)
+  json.call(habit, :id, :name, :current)
 end
