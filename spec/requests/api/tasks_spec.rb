@@ -1,15 +1,17 @@
 require "rails_helper"
 
 RSpec.describe "tasks", type: :request do
-  describe "GET /users/:user_id/tasks" do
-    it "returns a list of tasks for a user" do
+  describe "GET /tasks" do
+    it "returns a list of tasks based on the params" do
       user = create(:user)
       tasks = create_list(:task, 3, user: user)
 
-      get api_user_tasks_path(user)
+      get api_tasks_path(params: build_search_params), as: :json
 
       expect(response).to be_successful
-      expect(response.body).to eq(tasks.to_json)
+      json = JSON.parse(response.body)
+      expect(json.count).to eq(3)
+      expect(json.first.keys).to contain_exactly("id", "title", "status")
     end
   end
 
@@ -44,5 +46,13 @@ RSpec.describe "tasks", type: :request do
     }.merge(overrides)
 
     {task: params}
+  end
+
+  def build_search_params(overrides = {})
+    params = {
+      userId: User.last.id
+    }.merge(overrides)
+
+    {search: params}
   end
 end

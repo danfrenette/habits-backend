@@ -2,17 +2,15 @@ class Api::HabitsController < ApplicationController
   def index
     user = User.find(params[:user_id])
     @habits = user.habits
-
-    render json: @habits
   end
 
   def create
-    habit = Habit.new(habit_params)
+    @habit = Habit.new(habit_params)
 
-    if habit.save
-      render json: habit, status: :created
+    if @habit.save
+      render status: :created
     else
-      render json: habit.errors, status: :unprocessable_entity
+      render json: @habit.errors, status: :unprocessable_entity
     end
   end
 

@@ -17,7 +17,7 @@ RSpec.describe "Users", type: :request do
 
     context "the user hasn't been created in the database" do
       it "creates a user with the correct attributes" do
-        expect { post api_users_path, params: user_params }.to change(User, :count).by(1)
+        expect { post api_users_path, params: user_params, as: :json }.to change(User, :count).by(1)
 
         expect(response).to be_successful
         expect(response).to have_http_status(:created)
@@ -35,7 +35,7 @@ RSpec.describe "Users", type: :request do
       end
 
       it "does not create a new user" do
-        expect { post api_users_path, params: user_params }.not_to change(User, :count)
+        expect { post api_users_path, params: user_params, as: :json }.not_to change(User, :count)
 
         expect(response).to be_successful
         expect(response).to have_http_status(:created)

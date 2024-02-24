@@ -8,7 +8,7 @@ gem "puma", ">= 5.0"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "rack-cors"
-gem "jbuilder"
+gem "jbuilder", "~> 2.7"
 
 group :development, :test do
   gem "pry-rails"
