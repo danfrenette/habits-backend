@@ -4,5 +4,7 @@ Rails.application.routes.draw do
       resources :habits, only: [:index, :create]
       resources :tasks, only: [:index]
     end
+
+    resources :tasks, only: [:update]
   end
 end

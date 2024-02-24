@@ -1,3 +1,3 @@
 json.array! @tasks do |task|
-  json.call(task, :id, :title, :status)
+  json.partial! task
 end
