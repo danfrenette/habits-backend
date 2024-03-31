@@ -6,6 +6,13 @@ class Api::TasksController < ApplicationController
     render json: @tasks
   end
 
+  def create
+    user = User.find(params[:user_id])
+    @task = user.tasks.create(task_params)
+
+    render json: @task, status: :created
+  end
+
   def update
     @task = Task.find(params[:id])
     @task.update(task_params)
@@ -16,6 +23,6 @@ class Api::TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:completed, :status)
+    params.require(:task).permit(:status, :title)
   end
 end
