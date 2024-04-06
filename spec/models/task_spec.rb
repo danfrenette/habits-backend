@@ -6,6 +6,7 @@ RSpec.describe Task, type: :model do
   describe "associations" do
     it { should belong_to(:user) }
     it { should belong_to(:response).optional }
+    it { should have_one(:recurrence_rule) }
   end
 
   describe "validations" do

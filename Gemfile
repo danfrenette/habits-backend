@@ -9,8 +9,10 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "bootsnap", require: false
 gem "rack-cors"
 gem "jbuilder", "~> 2.7"
+gem "rrule"
 
 group :development, :test do
+  gem "pry"
   gem "pry-rails"
   gem "standard"
   gem "amazing_print"
@@ -19,5 +21,6 @@ group :development, :test do
   gem "shoulda-matchers"
 end
 
-group :development do
+group :test do
+  gem "timecop"
 end
