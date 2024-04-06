@@ -1,6 +1,7 @@
 class Task < ApplicationRecord
   belongs_to :user
   belongs_to :response, optional: true
+  has_many :completions, class_name: "TaskCompletion", dependent: :destroy
   has_one :recurrence_rule
 
   validates :title, presence: true
