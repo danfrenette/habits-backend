@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_31_181736) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_31_174516) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -48,6 +48,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_31_181736) do
     t.uuid "response_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "end_recurrence_at"
+    t.boolean "recurring", default: false, null: false
     t.index ["response_id"], name: "index_tasks_on_response_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end

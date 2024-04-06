@@ -3,15 +3,14 @@ require "rails_helper"
 RSpec.describe "tasks", type: :request do
   describe "GET /tasks" do
     it "returns a list of tasks based on the params" do
-      user = create(:user)
-      tasks = create_list(:task, 3, user: user)
+      create_list(:task, 3, user: build(:user))
 
       get api_tasks_path(params: build_search_params), as: :json
 
       expect(response).to be_successful
       json = JSON.parse(response.body)
       expect(json.count).to eq(3)
-      expect(json.first.keys).to contain_exactly("id", "title", "status")
+      expect(json.first.keys).to contain_exactly("id", "title", "recurring", "status")
     end
   end
 
@@ -29,19 +28,20 @@ RSpec.describe "tasks", type: :request do
 
   describe "PATCH /tasks/:id" do
     it "updates a task" do
-      task = create(:task, status: "pending")
+      task = create(:task, status: "active")
 
       patch api_task_path(task),
-        params: build_params(status: "completed"), as: :json
+        params: build_params(title: "New Title"), as: :json
 
       expect(response).to be_successful
-      expect(task.reload.status).to eq("completed")
+      expect(task.reload.title).to eq("New Title")
     end
   end
 
   def build_params(overrides = {})
     params = {
-      status: "pending",
+      recurring: "false",
+      status: "active",
       title: "Some task"
     }.merge(overrides)
 
