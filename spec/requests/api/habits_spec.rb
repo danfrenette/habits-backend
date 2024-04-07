@@ -4,7 +4,7 @@ RSpec.describe "habits", type: :request do
   describe "GET /habits" do
     it "returns a list of habits for a user" do
       user = create(:user)
-      habits = create_list(:habit, 3, user: user)
+      create_list(:habit, 3, user: user)
 
       get api_user_habits_path(user), as: :json
 
@@ -15,14 +15,13 @@ RSpec.describe "habits", type: :request do
     end
   end
 
-
   describe "POST /habits" do
     let(:user) { create(:user) }
     let(:habit_params) do
       {
         habit: {
           name: habit_name,
-          current: habit_is_current,
+          current: habit_is_current
         }
       }
     end
@@ -36,7 +35,7 @@ RSpec.describe "habits", type: :request do
         expect(response).to be_successful
         expect(Habit.last).to have_attributes(
           name: habit_name,
-          current: habit_is_current,
+          current: habit_is_current
         )
       end
     end

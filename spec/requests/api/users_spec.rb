@@ -7,7 +7,7 @@ RSpec.describe "Users", type: :request do
         user: {
           email: user_email,
           name: user_name,
-          image: user_image,
+          image: user_image
         }
       }
     end
@@ -24,7 +24,7 @@ RSpec.describe "Users", type: :request do
         expect(User.last).to have_attributes(
           email: user_email,
           name: user_name,
-          image: user_image,
+          image: user_image
         )
       end
     end

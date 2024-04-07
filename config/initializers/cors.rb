@@ -1,4 +1,4 @@
-Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: false, logger: (-> { Rails.logger }) do
+Rails.application.config.middleware.insert_before 0, Rack::Cors, debug: false, logger: -> { Rails.logger } do
   cors_origins = ENV.fetch("CORS_ORIGINS", "localhost:3000")
 
   if cors_origins && cors_origins != "*"

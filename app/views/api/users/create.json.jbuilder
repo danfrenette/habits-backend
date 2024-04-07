@@ -3,5 +3,5 @@ json.call(
   :id,
   :name,
   :image,
-  :email,
+  :email
 )
