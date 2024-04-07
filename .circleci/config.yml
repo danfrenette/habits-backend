@@ -8,9 +8,27 @@ orbs:
   # See the Ruby orb documentation here: https://circleci.com/developer/orbs/orb/circleci/ruby
   ruby: circleci/ruby@2.1.1
 
+executors:
+  default-executor:
+    docker:
+      - image: cimg/ruby:3.3.0
+    resource_class: large
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  standardrb:
+    executor: default-executor
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          name: Run StandardRB
+          command: bundle exec standardrb
+
   build:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
@@ -24,15 +42,14 @@ jobs:
     steps:
       # Checkout the code as the first step.
       - checkout
-      - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/install-deps
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+  test-ruby: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build
+  lint:
+    jobs:
+      - standardrb
