@@ -16,7 +16,7 @@ class RecurrenceRule < ApplicationRecord
       dtstart_match = rrule.match(/DTSTART:(\d{8}T\d{6}Z)/)
       return unless dtstart_match
 
-      Time.strptime(dtstart_match[1], "%Y%m%dT%H%M%SZ")
+      Time.strptime(dtstart_match[1], "%Y%m%dT%H%M%SZ").utc
     end
   end
 end

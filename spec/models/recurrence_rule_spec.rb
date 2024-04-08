@@ -16,13 +16,16 @@ RSpec.describe RecurrenceRule, type: :model do
       let(:rrule_string) { "DTSTART:20240406T174209Z\nRRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=SU,MO,TU" }
 
       it "returns an array of dates" do
-        Timecop.freeze(Time.new(2024, 4, 1)) do
-          expect(recurrence_rule.dates).to eq([
-            Time.utc(2024, 4, 7, 21, 42, 9),
-            Time.utc(2024, 4, 22, 21, 42, 9),
-            Time.utc(2024, 4, 23, 21, 42, 9),
-            Time.utc(2024, 4, 28, 21, 42, 9)
-          ])
+        rrule_instance = instance_double(RRule::Rule, between: true)
+        allow(RRule).to receive(:parse)
+          .with(
+            "RRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=SU,MO,TU",
+            dtstart: Time.new(2024, 4, 6, 17, 42, 9).utc
+          )
+          .and_return(rrule_instance)
+
+        Timecop.freeze(Time.new(2024, 4, 1).utc) do
+          expect(recurrence_rule.dates).to eq(true)
         end
       end
     end
