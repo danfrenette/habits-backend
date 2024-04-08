@@ -23,4 +23,5 @@ end
 
 group :test do
   gem "timecop"
+  gem "rspec_junit_formatter"
 end

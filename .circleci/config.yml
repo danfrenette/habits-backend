@@ -14,6 +14,16 @@ executors:
       - image: cimg/ruby:3.3.0
     resource_class: large
 
+  default-executor-postgres:
+    docker:
+      - image: cimg/ruby:3.3.0
+      - image: cimg/postgres:16.2
+        environment:
+          POSTGRES_USER: backend_test
+          POSTGRES_DB: backend_test
+          POSTGRES_PASSWORD: backend_test
+    resource_class: large
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
@@ -29,27 +39,37 @@ jobs:
           name: Run StandardRB
           command: bundle exec standardrb
 
-  build:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/docs/configuration-reference/#executor-job
-    docker:
-      # Specify the version you desire here
-      # See: https://circleci.com/developer/images/image/cimg/ruby
-      - image: cimg/ruby:3.3
+  test-ruby:
+    parallelism: 4
+    executor: default-executor-postgres
 
-    # Add steps to the job
-    # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      PGHOST: 127.0.0.1
+      PGUSER: backend_test
+      PGPASSWORD: backend_test
+      RAILS_ENV: test
+      COVERAGE: "1"
+
     steps:
-      # Checkout the code as the first step.
       - checkout
+      - ruby/install-deps
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Database setup
+          command: bundle exec rails db:schema:load --trace
+      - ruby/rspec-test
+      - run: exit 0
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  test-ruby: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  test:
     jobs:
-      - build
+      - test-ruby
   lint:
     jobs:
       - standardrb
