@@ -1,17 +1,17 @@
 module Queries
   class TaskSearch
     module Scopes
-      def for_user(user_id)
-        return self if user_id.blank?
+      def for_user(user_clerk_id)
+        return self if user_clerk_id.blank?
 
-        where(user_id: user_id)
+        where(user: User.find_in_clerk(user_clerk_id))
       end
     end
 
     def self.call(filters)
       Task
         .extending(Scopes)
-        .for_user(filters[:user_id])
+        .for_user(filters[:user_clerk_id])
     end
   end
 end

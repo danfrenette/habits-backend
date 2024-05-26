@@ -22,7 +22,7 @@ class Api::TasksController < ApplicationController
     params
       .require(:task)
       .permit(:title, :recurring, :rrule)
-      .reverse_merge(user_id: params[:user_id])
+      .reverse_merge(clerk_id: params[:user_clerk_id])
   end
 
   def update_task_params
@@ -34,7 +34,8 @@ class Api::TasksController < ApplicationController
   def task_search_params
     params
       .require(:search)
-      .permit(:userId, :dueDate)
+      .permit(:dueDate)
       .deep_transform_keys!(&:underscore)
+      .reverse_merge(user_clerk_id: params[:user_clerk_id])
   end
 end

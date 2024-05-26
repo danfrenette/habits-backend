@@ -1,11 +1,12 @@
 require "rails_helper"
 
 RSpec.describe "tasks", type: :request do
-  describe "GET /tasks" do
+  describe "GET /users/:user_clerk_id/tasks" do
     it "returns a list of tasks based on the params" do
-      create_list(:task, 3, user: build(:user))
+      user = create(:user)
+      create_list(:task, 3, user: user)
 
-      get api_tasks_path(params: build_search_params), as: :json
+      get api_user_tasks_path(user.clerk_id, params: build_search_params), as: :json
 
       expect(response).to be_successful
       json = JSON.parse(response.body)
@@ -14,11 +15,11 @@ RSpec.describe "tasks", type: :request do
     end
   end
 
-  describe "POST /users/:user_id/tasks" do
+  describe "POST /users/:user_clerk_id/tasks" do
     it "creates a new task" do
       user = create(:user)
       expect {
-        post api_user_tasks_path(user),
+        post api_user_tasks_path(user.clerk_id),
           params: build_params, as: :json
       }.to change(Task, :count).by(1)
 
@@ -50,7 +51,7 @@ RSpec.describe "tasks", type: :request do
 
   def build_search_params(overrides = {})
     params = {
-      userId: User.last.id
+      user_clerk_id: User.last.clerk_id
     }.merge(overrides)
 
     {search: params}

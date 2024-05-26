@@ -5,7 +5,7 @@ RSpec.describe Tasks::CreateTask do
     context "when creating a non-recurring task" do
       it "creates a task" do
         user = create(:user)
-        params = build_params(user_id: user.id)
+        params = build_params(clerk_id: user.clerk_id)
         expect { described_class.call(params) }.to change { Task.count }.by(1)
 
         task = Task.last
@@ -20,7 +20,7 @@ RSpec.describe Tasks::CreateTask do
     context "when creating a recurring task" do
       it "creates a task and a recurrence rule" do
         user = create(:user)
-        params = build_params(user_id: user.id, recurring: true, rrule: "FREQ=DAILY")
+        params = build_params(clerk_id: user.clerk_id, recurring: true, rrule: "FREQ=DAILY")
 
         expect { described_class.call(params) }
           .to change { Task.count }.by(1)
@@ -40,8 +40,8 @@ RSpec.describe Tasks::CreateTask do
 
     context "when the user does not exist" do
       it "handles the error" do
-        allow(User).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-        params = {user_id: 999, title: "Test Task", recurring: false}
+        allow(User).to receive(:find_in_clerk).and_raise(ActiveRecord::RecordNotFound)
+        params = {clerk_id: "not a real ID", title: "Test Task", recurring: false}
 
         expect { described_class.call(params) }.to raise_error(ActiveRecord::RecordNotFound)
       end

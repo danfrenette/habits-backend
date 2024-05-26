@@ -1,6 +1,6 @@
 class Api::HabitsController < ApplicationController
   def index
-    user = User.find(params[:user_id])
+    user = User.find_in_clerk(params[:user_clerk_id])
     @habits = user.habits
   end
 
@@ -20,6 +20,6 @@ class Api::HabitsController < ApplicationController
     params
       .require(:habit)
       .permit(:user, :name, :current)
-      .reverse_merge(user: User.find(params[:user_id]))
+      .reverse_merge(user: User.find_in_clerk(params[:user_clerk_id]))
   end
 end

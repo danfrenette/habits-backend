@@ -10,7 +10,7 @@ RSpec.describe Queries::TaskSearch, type: :query do
 
     context "when filtering by user_id" do
       it "returns tasks for the specified user" do
-        result = described_class.call(user_id: user1.id)
+        result = described_class.call(user_clerk_id: user1.clerk_id)
 
         expect(result).to contain_exactly(task1)
       end

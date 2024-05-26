@@ -6,7 +6,7 @@ RSpec.describe "habits", type: :request do
       user = create(:user)
       create_list(:habit, 3, user: user)
 
-      get api_user_habits_path(user), as: :json
+      get api_user_habits_path(user.clerk_id), as: :json
 
       expect(response).to be_successful
       json = JSON.parse(response.body)
@@ -30,7 +30,7 @@ RSpec.describe "habits", type: :request do
 
     context "the habit hasn't been created in the database" do
       it "creates a habit with the correct attributes" do
-        expect { post api_user_habits_path(user), params: habit_params, as: :json }.to change(Habit, :count).by(1)
+        expect { post api_user_habits_path(user.clerk_id), params: habit_params, as: :json }.to change(Habit, :count).by(1)
 
         expect(response).to be_successful
         expect(Habit.last).to have_attributes(
@@ -46,7 +46,7 @@ RSpec.describe "habits", type: :request do
       end
 
       it "does not create a new habit" do
-        expect { post api_user_habits_path(user), params: habit_params }
+        expect { post api_user_habits_path(user.clerk_id), params: habit_params }
           .not_to change(Habit, :count)
 
         expect(response).not_to be_successful
