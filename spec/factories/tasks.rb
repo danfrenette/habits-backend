@@ -7,6 +7,17 @@ FactoryBot.define do
 
     trait :recurring do
       recurring { true }
+    end
+
+    trait :non_recurring do
+      recurring { false }
+    end
+
+    trait :completed do
+      status { :completed }
+    end
+
+    trait :with_recurrence_rule do
       after(:create) do |task|
         create(:recurrence_rule, task: task)
       end

@@ -7,9 +7,11 @@ class Task < ApplicationRecord
   validates :title, presence: true
   validates :title, uniqueness: {scope: :response_id}, if: :response_id?
 
-  scope :recurring_indefinitely, -> { where(end_recurrence_at: nil) }
-  scope :recurring_until_future_date, -> { where("end_recurrence_at > ?", Time.current) }
-  scope :still_recurring, -> { recurring_indefinitely.or(recurring_until_future_date) }
+  scope :recurring_indefinitely, -> { where(recurring: true, end_recurrence_at: nil) }
+  scope :recurring_until_future_date, -> { where(recurring: true).where("end_recurrence_at > ?", Time.current) }
+  scope :actively_recurring, -> { active.recurring_indefinitely.or(recurring_until_future_date) }
 
   enum status: {active: "active", completed: "completed"}
+
+  alias_attribute :recurrence_ends_at, :end_recurrence_at
 end
