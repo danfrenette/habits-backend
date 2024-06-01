@@ -8,6 +8,8 @@ gem "puma", ">= 5.0"
 gem "tzinfo-data", platforms: %i[windows jruby]
 gem "bootsnap", require: false
 gem "rack-cors"
+gem "sidekiq"
+gem "sidekiq-scheduler"
 gem "jbuilder", "~> 2.7"
 gem "rrule"
 
