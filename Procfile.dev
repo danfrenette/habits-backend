@@ -1,0 +1,4 @@
+memcached: memcached
+redis: redis-server --loglevel warning
+web: bundle exec puma -C config/puma.rb -p 3001
+worker: bundle exec sidekiq -C config/sidekiq.yml
