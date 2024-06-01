@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_26_160727) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_01_160040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -43,11 +43,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_160727) do
 
   create_table "task_completions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_id", null: false
-    t.datetime "completed_at", null: false
+    t.datetime "completed_at"
     t.text "notes"
     t.boolean "completed", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "due_at", null: false
     t.index ["task_id"], name: "index_task_completions_on_task_id"
   end
 
