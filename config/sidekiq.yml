@@ -1,0 +1,7 @@
+:scheduler:
+  :schedule:
+    create_tasks_worker:
+      cron: "0 0 * * 0" # runs every Sunday at midnight
+      class: "CreateTasksWorker"
+      description: "This worker creates tasks for the upcoming week"
+
