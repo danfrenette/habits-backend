@@ -16,6 +16,13 @@ class Api::TasksController < ApplicationController
     render status: :ok
   end
 
+  def destroy
+    @task = Task.find(params[:id])
+    @task.discard
+
+    head :ok
+  end
+
   private
 
   def create_task_params

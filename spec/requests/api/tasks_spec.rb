@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "tasks", type: :request do
-  describe "GET /users/:user_clerk_id/tasks" do
+  describe "GET /api/users/:user_clerk_id/tasks" do
     it "returns a list of tasks based on the params" do
       user = create(:user)
       create_list(:task, 3, user: user)
@@ -15,7 +15,7 @@ RSpec.describe "tasks", type: :request do
     end
   end
 
-  describe "POST /users/:user_clerk_id/tasks" do
+  describe "POST /api/users/:user_clerk_id/tasks" do
     it "creates a new task" do
       user = create(:user)
       expect {
@@ -27,7 +27,7 @@ RSpec.describe "tasks", type: :request do
     end
   end
 
-  describe "PATCH /tasks/:id" do
+  describe "PATCH /api/tasks/:id" do
     it "updates a task" do
       task = create(:task, status: "active")
 
@@ -36,6 +36,14 @@ RSpec.describe "tasks", type: :request do
 
       expect(response).to be_successful
       expect(task.reload.title).to eq("New Title")
+    end
+  end
+
+  describe "DELETE /api/tasks/:id" do
+    it "discards the task" do
+      task = create(:task)
+
+      expect { delete api_task_path(task) }.to change(Task, :count).by(-1)
     end
   end
 
