@@ -1,7 +1,8 @@
 :scheduler:
   :schedule:
     create_tasks_worker:
-      cron: "0 0 * * 0" # runs every Sunday at midnight
-      class: "CreateTasksWorker"
-      description: "This worker creates tasks for the upcoming week"
+      cron: "0 0 * * *"   # Every night at midnight
+      class: "Tasks::CreateTasksWorker"
+      description: "This worker creates tasks for the upcoming day."
 
+:tz: "America/New_York" # Set your desired time zone here

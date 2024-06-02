@@ -14,7 +14,8 @@ module Tasks
       raise TaskNotRecurringError if task_is_not_actively_recurring?
 
       dates.each do |due_date|
-        TaskCompletion.find_or_create_by!(task: task, due_at: due_date.end_of_day)
+        due_at = due_date.in_time_zone(recurrence_rule.time_zone).end_of_day
+        TaskCompletion.find_or_create_by!(task: task, due_at: due_at)
       end
     end
 
@@ -31,7 +32,7 @@ module Tasks
     end
 
     def recurrence_rule
-      task.recurrence_rule
+      @recurrence_rule ||= task.recurrence_rule
     end
   end
 end

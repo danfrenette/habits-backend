@@ -2,21 +2,42 @@ class RecurrenceRule < ApplicationRecord
   belongs_to :task
   validates :rrule, presence: true
 
-  def dates(end_date: Time.current.end_of_month)
-    rrule_match = rrule.match(/RRULE:(.*)/)
-    return [] unless rrule_match && dtstart_time
+  DTSTART_REGEX = /DTSTART;TZID=([^:]+):([0-9T]+)/
+  RRULE_REGEX = /RRULE:([^\n]+)/
 
-    RRule.parse(rrule_match[0], dtstart: dtstart_time).between(Time.current, end_date)
+  def dates(end_date: Time.current.end_of_month)
+    rule.between(Time.current.beginning_of_day, end_date)
+  end
+
+  def time_zone
+    rule.tz
   end
 
   private
 
-  def dtstart_time
-    @dtstart_time ||= begin
-      dtstart_match = rrule.match(/DTSTART:(\d{8}T\d{6}Z)/)
-      return unless dtstart_match
+  def rule
+    raise RRule::InvalidRRule unless valid_rrule?
 
-      Time.strptime(dtstart_match[1], "%Y%m%dT%H%M%SZ").utc
-    end
+    @rule ||= RRule::Rule.new(rrule_match, dtstart: dtstart, tzid: tzid_match)
+  end
+
+  def valid_rrule?
+    dtstart_match && rrule_match && tzid_match
+  end
+
+  def rrule_match
+    @rrule_match ||= rrule.match(RRULE_REGEX).to_a.first
+  end
+
+  def dtstart
+    Time.zone.strptime(dtstart_match, "%Y%m%dT%H%M%S").in_time_zone(tzid_match)
+  end
+
+  def dtstart_match
+    @dtstart_match ||= rrule.match(DTSTART_REGEX).to_a.third
+  end
+
+  def tzid_match
+    @tzid_match ||= rrule.match(DTSTART_REGEX).to_a.second
   end
 end
