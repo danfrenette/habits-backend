@@ -11,4 +11,8 @@ RSpec.describe TaskCompletion, type: :model do
     it { should validate_presence_of(:due_at) }
     it { should validate_uniqueness_of(:task_id).scoped_to(:due_at).case_insensitive }
   end
+
+  describe "delegations" do
+    it { should delegate_method(:title).to(:task).with_prefix }
+  end
 end

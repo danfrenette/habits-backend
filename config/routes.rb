@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :users, only: [:create], param: :clerk_id do
       resources :habits, only: [:index, :create]
       resources :tasks, only: [:create, :index]
+      resources :task_completions, only: [:index]
     end
 
     resources :tasks, only: [:update, :destroy]
