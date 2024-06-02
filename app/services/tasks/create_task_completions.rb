@@ -13,8 +13,8 @@ module Tasks
     def call
       raise TaskNotRecurringError if task_is_not_actively_recurring?
 
-      dates.each do |date|
-        TaskCompletion.find_or_create_by!(task: task, due_at: date)
+      dates.each do |due_date|
+        TaskCompletion.find_or_create_by!(task: task, due_at: due_date.end_of_day)
       end
     end
 
@@ -27,7 +27,7 @@ module Tasks
     end
 
     def dates
-      @dates ||= RRule.parse(recurrence_rule.rrule).between(Time.current, Time.current.end_of_week)
+      @dates ||= recurrence_rule.dates(end_date: Time.current.end_of_day)
     end
 
     def recurrence_rule

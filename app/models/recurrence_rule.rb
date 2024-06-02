@@ -2,11 +2,11 @@ class RecurrenceRule < ApplicationRecord
   belongs_to :task
   validates :rrule, presence: true
 
-  def dates
+  def dates(end_date: Time.current.end_of_month)
     rrule_match = rrule.match(/RRULE:(.*)/)
     return [] unless rrule_match && dtstart_time
 
-    RRule.parse(rrule_match[0], dtstart: dtstart_time).between(Time.now, Time.now.end_of_month)
+    RRule.parse(rrule_match[0], dtstart: dtstart_time).between(Time.current, end_date)
   end
 
   private

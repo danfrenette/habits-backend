@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :recurrence_rule do
     task
-    rrule { "RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=SU,MO,TU" }
+    rrule { "DTSTART:20240526T182200Z\nRRULE:FREQ=DAILY;INTERVAL=1" }
   end
 end

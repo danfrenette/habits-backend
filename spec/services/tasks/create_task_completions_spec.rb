@@ -7,17 +7,14 @@ RSpec.describe Tasks::CreateTaskCompletions, type: :service do
 
   describe "#call" do
     context "when the task is recurring" do
-      before do
-        rrule_double = instance_double(RRule::Rule, between: [Date.current])
-        allow(RRule).to receive(:parse).with(task.recurrence_rule.rrule).and_return(rrule_double)
-      end
-
       it "creates a task completion for the given date" do
         expect { subject.call }.to change(TaskCompletion, :count).by(1)
+
         completion = TaskCompletion.last
+
         expect(completion).to have_attributes(
           task: task,
-          due_at: Date.current # date of the task completion's recurrence
+          due_at: be_within(1.second).of(Date.current.end_of_day)
         )
       end
     end
