@@ -14,4 +14,25 @@ RSpec.describe "Task Completions API", type: :request do
       expect(json.first.keys).to contain_exactly("id", "taskId", "completedAt", "dueAt", "taskTitle")
     end
   end
+
+  describe "PATCH /api/task_completions/:id" do
+    it "updates a task completion" do
+      task_completion = create(:task_completion, completed_at: nil)
+
+      patch api_task_completion_path(task_completion),
+        params: build_params(completed_at: Time.zone.now), as: :json
+
+      expect(response).to be_successful
+      expect(task_completion.reload.completed_at).to be_within(1.second).of(Time.zone.now)
+    end
+  end
+
+  def build_params(overrides = {})
+    params = {
+      due_at: Time.zone.now.end_of_day,
+      completed_at: nil
+    }.merge(overrides)
+
+    {task_completion: params}
+  end
 end

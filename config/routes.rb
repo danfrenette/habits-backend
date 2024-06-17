@@ -20,5 +20,6 @@ Rails.application.routes.draw do
     end
 
     resources :tasks, only: [:update, :destroy]
+    resources :task_completions, only: [:update]
   end
 end
