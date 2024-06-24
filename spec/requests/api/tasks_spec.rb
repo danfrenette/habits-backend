@@ -11,7 +11,7 @@ RSpec.describe "tasks", type: :request do
       expect(response).to be_successful
       json = JSON.parse(response.body)
       expect(json.count).to eq(3)
-      expect(json.first.keys).to contain_exactly("id", "title", "recurring", "status")
+      expect(json.first.keys).to contain_exactly("id", "title", "recurring", "status", "slug")
     end
   end
 

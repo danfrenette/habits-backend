@@ -4,6 +4,7 @@ class Task < ApplicationRecord
   has_many :completions, class_name: "TaskCompletion", dependent: :destroy
   has_one :recurrence_rule
 
+  validates :slug, uniqueness: true
   validates :title, presence: true
   validates :title, uniqueness: {scope: :response_id}, if: :response_id?
 

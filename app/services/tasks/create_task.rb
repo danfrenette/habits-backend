@@ -18,7 +18,8 @@ module Tasks
         title: title,
         user: user,
         recurring: recurring,
-        status: :active
+        status: :active,
+        slug: slug
       )
     end
 
@@ -28,6 +29,16 @@ module Tasks
 
     def create_recurrence_rule(task)
       RecurrenceRule.create(task: task, rrule: rrule)
+    end
+
+    def slug
+      slug = title.parameterize
+
+      if Task.exists?(slug: slug)
+        "#{slug}-#{SecureRandom.hex(2)}"
+      else
+        slug
+      end
     end
   end
 end

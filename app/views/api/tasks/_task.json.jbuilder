@@ -3,5 +3,6 @@ json.call(
   :id,
   :recurring,
   :status,
-  :title
+  :title,
+  :slug
 )

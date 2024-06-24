@@ -4,6 +4,7 @@ FactoryBot.define do
     recurring { false }
     sequence(:title) { |n| "Task #{n}" }
     status { :active }
+    sequence(:slug) { |n| "task-#{n}" }
 
     trait :recurring do
       recurring { true }

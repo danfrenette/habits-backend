@@ -12,7 +12,8 @@ RSpec.describe Tasks::CreateTask do
         expect(task).to have_attributes(
           title: "Test Task",
           user: user,
-          recurring: false
+          recurring: false,
+          slug: "test-task"
         )
       end
     end
@@ -32,7 +33,8 @@ RSpec.describe Tasks::CreateTask do
         expect(task).to have_attributes(
           title: "Test Task",
           user: user,
-          recurring: true
+          recurring: true,
+          slug: "test-task"
         )
         expect(recurrence_rule).to have_attributes(rrule: "FREQ=DAILY")
       end
