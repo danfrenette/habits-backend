@@ -1,5 +1,18 @@
 # Habits Backend
 
+## About This Project
+This project is a hobby app, created to explore and demonstrate my skills and
+familiarity with Rails, Sidekiq, service objects, and RRule. While it showcases
+my abilities and understanding of the technologies used, it does not
+necessarily reflect the thoroughness or polish of a final production-ready
+application.
+
+The primary goal of this project is to provide a playground for learning and
+experimentation, and as such, some areas may not be fully optimized or
+feature-complete. I hope it offers insight into my development process and the
+tools I enjoy working with.
+
+
 ## Overview
 The Habits Backend is a Rails-based API designed to deliver data for a Next.js
 frontend application. This project manages user to-dos, allowing them to be
