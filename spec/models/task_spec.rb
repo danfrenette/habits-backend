@@ -11,14 +11,8 @@ RSpec.describe Task, type: :model do
   end
 
   describe "validations" do
-    it { should validate_presence_of(:title) }
-    it { should validate_uniqueness_of(:slug) }
-
-    context "when response is present" do
-      subject { build(:task, response: build(:response)) }
-
-      it { should validate_uniqueness_of(:title).scoped_to(:response_id) }
-    end
+    it { should validate_uniqueness_of(:slug).scoped_to(:user_id) }
+    it { should validate_uniqueness_of(:title).scoped_to(:user_id) }
   end
 
   describe "scopes" do

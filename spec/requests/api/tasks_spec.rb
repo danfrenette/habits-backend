@@ -15,6 +15,47 @@ RSpec.describe "tasks", type: :request do
     end
   end
 
+  describe "GET /api/users/:user_clerk_id/tasks/:task_id" do
+    context "the :id param is a UUID" do
+      it "returns the specified users task" do
+        user = create(:user)
+        task = create(:task, user: user)
+
+        get api_user_task_path(user.clerk_id, task.id), as: :json
+
+        expect(response).to be_successful
+        json = JSON.parse(response.body)
+        expect(json.keys).to contain_exactly("id", "title", "recurring", "status", "slug")
+      end
+    end
+
+    context "the :id param is a slug" do
+      it "returns the specified users task" do
+        user = create(:user)
+        task = create(:task, user: user)
+
+        get api_user_task_path(user.clerk_id, task.slug), as: :json
+
+        expect(response).to be_successful
+        json = JSON.parse(response.body)
+        expect(json.keys).to contain_exactly("id", "title", "recurring", "status", "slug")
+      end
+    end
+
+    context "the task has an associated recurrence rule" do
+      it "returns the recurrence rule along with the task data" do
+        user = create(:user)
+        task = create(:task, :recurring, :with_recurrence_rule, user: user)
+
+        get api_user_task_path(user.clerk_id, task.id), as: :json
+
+        expect(response).to be_successful
+        json = JSON.parse(response.body)
+        expect(json.keys).to contain_exactly("id", "title", "recurring", "status", "slug", "recurrenceRule")
+      end
+    end
+  end
+
   describe "POST /api/users/:user_clerk_id/tasks" do
     it "creates a new task" do
       user = create(:user)

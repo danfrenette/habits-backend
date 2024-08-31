@@ -3,6 +3,14 @@ class Api::TasksController < ApplicationController
     @tasks = Queries::TaskSearch.call(task_search_params)
   end
 
+  def show
+    @task = if UuidMatcher.match?(params[:id])
+      Task.find(params[:id])
+    else
+      Task.find_by!(slug: params[:id])
+    end
+  end
+
   def create
     @task = Tasks::CreateTask.call(create_task_params)
 

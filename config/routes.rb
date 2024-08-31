@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users, only: [:create], param: :clerk_id do
       resources :habits, only: [:index, :create]
-      resources :tasks, only: [:create, :index]
+      resources :tasks, only: [:create, :index, :show]
       resources :task_completions, only: [:index]
     end
 

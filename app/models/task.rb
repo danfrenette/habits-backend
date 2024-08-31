@@ -4,9 +4,9 @@ class Task < ApplicationRecord
   has_many :completions, class_name: "TaskCompletion", dependent: :destroy
   has_one :recurrence_rule
 
-  validates :slug, uniqueness: true
+  validates :slug, uniqueness: {scope: :user_id}
   validates :title, presence: true
-  validates :title, uniqueness: {scope: :response_id}, if: :response_id?
+  validates :title, uniqueness: {scope: :user_id}
 
   default_scope -> { kept }
 
