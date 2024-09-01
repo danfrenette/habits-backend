@@ -1,5 +1,5 @@
 module Tasks
-  class CreateTaskCompletions
+  class CreateTaskAssignments
     class TaskNotRecurringError < StandardError; end
 
     def self.call(task)
@@ -15,7 +15,7 @@ module Tasks
 
       dates.each do |due_date|
         due_at = due_date.in_time_zone(recurrence_rule.time_zone).end_of_day
-        TaskCompletion.find_or_create_by!(task: task, due_at: due_at)
+        TaskAssignment.find_or_create_by!(task: task, due_at: due_at)
       end
     end
 

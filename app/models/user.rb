@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   has_many :habits
   has_many :tasks
-  has_many :task_completions, through: :tasks, source: :completions
+  has_many :task_assignments, through: :tasks, source: :assignments
 
   def self.find_in_clerk(clerk_id)
     find_by(clerk_id: clerk_id)

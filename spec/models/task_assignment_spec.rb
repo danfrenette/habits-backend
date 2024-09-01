@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe TaskCompletion, type: :model do
-  subject { create(:task_completion) }
+RSpec.describe TaskAssignment, type: :model do
+  subject { create(:task_assignment) }
 
   describe "associations" do
     it { should belong_to(:task) }

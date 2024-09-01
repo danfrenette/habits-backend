@@ -1,4 +1,4 @@
-class TaskCompletion < ApplicationRecord
+class TaskAssignment < ApplicationRecord
   belongs_to :task
 
   validates :due_at, presence: true

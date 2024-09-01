@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_23_235945) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_01_205535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -41,7 +41,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_23_235945) do
     t.index ["habit_id"], name: "index_responses_on_habit_id"
   end
 
-  create_table "task_completions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "task_assignments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "task_id", null: false
     t.datetime "completed_at"
     t.text "notes"
@@ -49,7 +49,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_23_235945) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "due_at", null: false
-    t.index ["task_id"], name: "index_task_completions_on_task_id"
+    t.index ["task_id"], name: "index_task_assignments_on_task_id"
   end
 
   create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -83,7 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_23_235945) do
   add_foreign_key "habits", "users"
   add_foreign_key "recurrence_rules", "tasks"
   add_foreign_key "responses", "habits"
-  add_foreign_key "task_completions", "tasks"
+  add_foreign_key "task_assignments", "tasks"
   add_foreign_key "tasks", "responses"
   add_foreign_key "tasks", "users"
 end

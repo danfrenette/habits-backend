@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :task_completion, aliases: [:completion] do
+  factory :task_assignment, aliases: [:assignment] do
     task
     due_at { Time.zone.now }
 
