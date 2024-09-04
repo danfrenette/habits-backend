@@ -11,7 +11,7 @@ RSpec.describe "Task Assignments API", type: :request do
       expect(response).to be_successful
       json = JSON.parse(response.body)
       expect(json.count).to eq(3)
-      expect(json.first.keys).to contain_exactly("id", "taskId", "completedAt", "dueAt", "taskTitle")
+      expect(json.first.keys).to contain_exactly("id", "taskId", "completedAt", "dueAt", "taskTitle", "taskSlug")
     end
   end
 

@@ -14,5 +14,6 @@ RSpec.describe TaskAssignment, type: :model do
 
   describe "delegations" do
     it { should delegate_method(:title).to(:task).with_prefix }
+    it { should delegate_method(:slug).to(:task).with_prefix }
   end
 end
